@@ -10,9 +10,8 @@ class SignupCredential(BaseModel):
     gender: Literal['man', 'woman', 'other']
     occupation: Optional[str] = None
     college: Optional[str] = None
-    lifestyle: Literal['active', 'not active', 'sometimes active']
     dob: str
-    
+
 # write a date validator function
 class LoginCredential(BaseModel):
     pass
