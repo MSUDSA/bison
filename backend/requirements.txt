@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+asyncpg
+requests
+python-dotenv
+pyjwt
+python-jose
+redis[hiredis]
+pylibmagic
+python-majic
+httpx
+pydantic
