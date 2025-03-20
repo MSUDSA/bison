@@ -107,6 +107,22 @@ export default function Home() {
                 <option value="not active">Not Active</option>
                 <option value="sometimes active">Sometimes Active</option>
               </select>
+
+              <input
+                type="text"
+                placeholder="Occupation (Optional)"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
+                value={formData.occupation}
+                onChange={(e) => setFormData({...formData, occupation: e.target.value})}
+              />
+
+              <input
+                type="text"
+                placeholder="College (Optional)"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
+                value={formData.college}
+                onChange={(e) => setFormData({...formData, college: e.target.value})}
+              />
             </>
           )}
 
