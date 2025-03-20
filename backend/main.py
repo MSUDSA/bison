@@ -5,6 +5,7 @@ from config import Config
 from state import ApplicationState
 from db import Database, Cache
 from contextlib import asynccontextmanager
+from routes import user_router, auth_router, msg_router
 
 
 @asynccontextmanager
@@ -28,3 +29,6 @@ def root():
     return {"data": "Hello World"}
 
 
+app.include_router(auth_router)
+app.include_router(user_router)
+app.include_router(msg_router)

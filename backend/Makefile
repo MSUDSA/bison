@@ -10,7 +10,7 @@ stop:
 	cd .. && \
 	docker-compose down
 
-push:
-	cd ../scripts && \
-		./docker_push.sh
+# push:
+# 	cd ../scripts && \
+# 		./docker_push.sh
 

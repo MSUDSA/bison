@@ -11,13 +11,13 @@ class Cache:
     def __new__(cls):
         with cls.__lock:
             if cls.__instance is None:
-                cls.__instance = super(Cache, cls).__new(cls)
+                cls.__instance = super(Cache, cls).__new__(cls)
                 cls.__instance.state = "running"
             return cls.__instance
 
     def connect(self):
         if not self.connected:
-            self.connection = Redis(host='redis', port=6379, decode_response=True)
+            self.connection = Redis(host='redis', port=6379, decode_responses=True)
             self.connected = True
         return self
 
