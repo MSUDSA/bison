@@ -4,6 +4,7 @@ asyncpg
 requests
 python-dotenv
 pyjwt
+openai
 python-jose
 redis[hiredis]
 pylibmagic

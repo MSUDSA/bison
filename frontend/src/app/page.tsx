@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
+import Cookies from 'js-cookie';
 
 interface FormData {
   name: string;
   password: string;
   email: string;
   age: string;
-  gender: 'man' | 'woman' | 'other';
+  gender: 'male' | 'female' | 'other';
   occupation?: string;
   college?: string;
   lifestyle: 'active' | 'not active' | 'sometimes active';
@@ -18,12 +18,14 @@ interface FormData {
 
 export default function Home() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     password: '',
     email: '',
-    age: '',
-    gender: 'man',
+    age: '18',
+    gender: 'male',
     occupation: '',
     college: '',
     lifestyle: 'active',
@@ -32,41 +34,49 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     isLogin ? handleLogin(formData) : handleSignup(formData);
-    
-
   };
-const handleLogin = async (formdata : FormData) => {
-  try {
-    const res = await fetch(`http://localhost:8000/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formdata),
-    });
-    const data = await res.json();
-    console.log(data)
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
 
-const handleSignup = async (formdata : FormData) => {
-  try {
-    const res = await fetch(`http://localhost:8000/users/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formdata),
-    });
-    const data = await res.json();
-    console.log(data)
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
+  const handleLogin = async (formdata: FormData) => {
+    try {
+      const res = await fetch(`http://localhost:8000/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formdata),
+      });
+      const data = await res.json();
+      console.log(data);
+
+      // Set cookie on client side
+      Cookies.set('auth_token', data.access_token, { expires: 7, path: '/' });
+
+      console.log("Login successful!");
+      router.push('/dashboard'); // Redirect after login
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleSignup = async (formdata: FormData) => {
+    try {
+      const res = await fetch(`http://localhost:8000/users/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formdata),
+      });
+      const data = await res.json();
+      console.log(data);
+      setIsLogin(true)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -110,11 +120,11 @@ const handleSignup = async (formdata : FormData) => {
               <select
                 className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
                 value={formData.gender}
-                onChange={(e) => setFormData({...formData, gender: e.target.value as 'man' | 'woman' | 'other'})}
+                onChange={(e) => setFormData({...formData, gender: e.target.value as 'male' | 'female' | 'other'})}
               >
-                <option value="man">Man</option>
-                <option value="woman">Woman</option>
-                <option value="other">Other</option>
+                <option value="male">male</option>
+                <option value="female">woman</option>
+                <option value="other">other</option>
               </select>
 
               <select
@@ -122,9 +132,9 @@ const handleSignup = async (formdata : FormData) => {
                 value={formData.lifestyle}
                 onChange={(e) => setFormData({...formData, lifestyle: e.target.value as 'active' | 'not active' | 'sometimes active'})}
               >
-                <option value="active">Active</option>
-                <option value="not active">Not Active</option>
-                <option value="sometimes active">Sometimes Active</option>
+                <option value="active">active</option>
+                <option value="not active">not active</option>
+                <option value="sometimes active">sometimes active</option>
               </select>
 
               <input
@@ -159,7 +169,6 @@ const handleSignup = async (formdata : FormData) => {
             className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
-            className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
           />
 
           <button

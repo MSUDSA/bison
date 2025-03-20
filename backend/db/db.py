@@ -92,7 +92,7 @@ class Database:
                     user_id INT REFERENCES users(id) ON DELETE CASCADE,
                     created_at TIMESTAMP DEFAULT NOW(),
                     title VARCHAR NOT NULL
-                )
+                );
 
                 CREATE TABLE IF NOT EXISTS message (
                     id SERIAL PRIMARY KEY,
@@ -100,7 +100,7 @@ class Database:
                     timestamp TIMESTAMP DEFAULT NOW(),
                     is_ai BOOLEAN,
                     content TEXT NOT NULL
-                    )
+                    );
                 """
             )
         except Exception as e:
@@ -222,6 +222,34 @@ class Database:
         
         except Exception as e:
             print(f"error {e}")
+
+
+    async def get_user_sorted_dms(self, user_id):
+        try:
+            dms = await self.connection.fetch(
+                """
+                SELECT
+                    dm.id AS dm_id,
+                    dm.user_id,
+                    dm.title,
+                    dm.created_at
+                    (SELECT MAX(m.created_at)
+                     FROM messages m
+                     WHERE m.dm_id = dm.id) AS updated_at
+                FROM direct_message dm
+                WHERE dm.user_id = $1
+                ORDER BY updated_at DESC; 
+                """,
+                user_id
+            )
+            direct_messages = []
+            for dm in dms:
+                direct_messages.append(DirectMessageType(id=dm['dm_id'],created_at=dm['created_at'], user_id=dm['user_id'], title=dm['title'], updated_at=dm['updated_at']))
+            return direct_messages
+
+        except Exception as e:
+            print(f"{e}")
+
     async def get_account_info_by_email(self, email):
         if email:
             try:

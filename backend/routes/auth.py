@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from lib.types import Token, Cookies, LoginCredential
-from lib.functions import create_jwt_token, verify_jwt_token, verify_password, hash_password
+from lib.functions import create_jwt_token, verify_jwt_token_request, verify_password, hash_password
 from config import Config
 from state import ApplicationState
 
@@ -37,5 +37,6 @@ async def login_via_email_password(user: LoginCredential):
 
     
 @auth_router.get('/protected')
-async def get_protected_route(user=Depends(verify_jwt_token)):
-    return JSONResponse(content=user)
+async def get_protected_route(user =Depends(verify_jwt_token_request)):
+    cookies = Cookies(**user)
+    return JSONResponse(content= cookies.model_dump())

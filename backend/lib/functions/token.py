@@ -8,9 +8,11 @@ def create_jwt_token(data: dict):
     data.update({"exp": expiration})
     return jwt.encode(data, Config.SECRET_KEY, algorithm="HS256")
 
-def verify_jwt_token(request: Request):
+def verify_jwt_token_request(request: Request):
     token = request.cookies.get("auth_token")
+    return verify_jwt_token(token)
 
+def verify_jwt_token(token):
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
     try:
