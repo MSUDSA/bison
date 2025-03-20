@@ -33,19 +33,40 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     isLogin ? handleLogin(formData) : handleSignup(formData);
-  };
-  const router = useRouter()
-  const handleLogin = async (formdata : FormData) => {
-    console.log(formdata);
-    router.push('/chat')
     
-  }
-  const handleSignup = async (formdata: FormData) => {
-    console.log(formdata);
-    setIsLogin(true)
 
+  };
+const handleLogin = async (formdata : FormData) => {
+  try {
+    const res = await fetch(`http://localhost:8000/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formdata),
+    });
+    const data = await res.json();
+    console.log(data)
+  } catch (error) {
+    console.error('Error:', error);
   }
+}
 
+const handleSignup = async (formdata : FormData) => {
+  try {
+    const res = await fetch(`http://localhost:8000/users/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formdata),
+    });
+    const data = await res.json();
+    console.log(data)
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -64,7 +85,7 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Full Name"
-                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
               />
@@ -73,21 +94,21 @@ export default function Home() {
                 <input
                   type="number"
                   placeholder="Age"
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
                   value={formData.age}
                   onChange={(e) => setFormData({...formData, age: e.target.value})}
                 />
                 <input
                   type="date"
                   placeholder="Date of Birth"
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
                   value={formData.dob}
                   onChange={(e) => setFormData({...formData, dob: e.target.value})}
                 />
               </div>
 
               <select
-                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
                 value={formData.gender}
                 onChange={(e) => setFormData({...formData, gender: e.target.value as 'man' | 'woman' | 'other'})}
               >
@@ -97,7 +118,7 @@ export default function Home() {
               </select>
 
               <select
-                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
                 value={formData.lifestyle}
                 onChange={(e) => setFormData({...formData, lifestyle: e.target.value as 'active' | 'not active' | 'sometimes active'})}
               >
@@ -105,13 +126,29 @@ export default function Home() {
                 <option value="not active">Not Active</option>
                 <option value="sometimes active">Sometimes Active</option>
               </select>
+
+              <input
+                type="text"
+                placeholder="Occupation (Optional)"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
+                value={formData.occupation}
+                onChange={(e) => setFormData({...formData, occupation: e.target.value})}
+              />
+
+              <input
+                type="text"
+                placeholder="College (Optional)"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
+                value={formData.college}
+                onChange={(e) => setFormData({...formData, college: e.target.value})}
+              />
             </>
           )}
 
           <input
             type="email"
             placeholder="Email Address"
-            className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+            className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
           />
@@ -122,6 +159,7 @@ export default function Home() {
             className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
+            className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500 text-gray-900"
           />
 
           <button
