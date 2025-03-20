@@ -1,40 +1,6 @@
 from openai import OpenAI
 from lib.functions.queue import Queue
 import os
-client = OpenAI()
-
-response = client.responses.create(
-  model="gpt-4o",
-  input=[
-    {
-      "role": "system",
-      "content": [
-        {
-          "type": "input_text",
-          "text": "you are a mental health chat bot and will only give mental health advice"
-        }
-      ]
-    },
-    {
-      "role": "user",
-      "content": [
-        {
-          "type": "input_text",
-          "text": "yes i got my code to work and it made me happy, haven't been this excited before lately"
-        }
-      ]
-    },
-    {
-      "role": "assistant",
-      "content": [
-        {
-          "type": "output_text",
-          "text": "That's fantastic! Achieving a goal, especially after effort and perseverance, can be incredibly rewarding. It's great to hear you're feeling this excitement. Remember to celebrate your successes and reflect on what helped you achieve this—it's a great way to build confidence and motivation for future challenges. Keep up the good work!"
-        }
-      ]
-    }
-  ],
-)
 
 class Chatbot:
     def __init__(self):
