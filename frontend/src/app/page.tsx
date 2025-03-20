@@ -1,10 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Image from 'next/image';
+
 
 interface FormData {
   name: string;
+  password: string;
   email: string;
   age: string;
   gender: 'man' | 'woman' | 'other';
@@ -18,6 +20,7 @@ export default function Home() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState<FormData>({
     name: '',
+    password: '',
     email: '',
     age: '',
     gender: 'man',
@@ -29,24 +32,19 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const endpoint = isLogin ? '/auth/login' : '/auth/signup';
-    
-    try {
-      const response = await fetch(`http://localhost:8000${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        // Handle successful login/signup
-        console.log('Success!');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    isLogin ? handleLogin(formData) : handleSignup(formData);
   };
+  const router = useRouter()
+  const handleLogin = async (formdata : FormData) => {
+    console.log(formdata);
+    router.push('/chat')
+    
+  }
+  const handleSignup = async (formdata: FormData) => {
+    console.log(formdata);
+    setIsLogin(true)
+
+  }
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -122,6 +120,8 @@ export default function Home() {
             type="password"
             placeholder="Password"
             className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-green-500"
+            value={formData.password}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
           />
 
           <button
