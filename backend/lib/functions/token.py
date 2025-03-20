@@ -1,4 +1,4 @@
-from fastapi import Request, HTTPExecption
+from fastapi import Request, HTTPException
 import jwt
 import datetime
 from config import Config

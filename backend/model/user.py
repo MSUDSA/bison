@@ -10,6 +10,7 @@ class User:
     
     def set_age(self, age):
         self.age = age
+
     def set_name(self, name):
         self.name = name
     
@@ -35,7 +36,7 @@ class User:
         return self.name
     
     def get_gender(self):
-        return self.gender
+        return self.gender.value
     
     def get_occupation(self):
         return self.occupation
@@ -48,4 +49,3 @@ class User:
     
     def prepare_insert(self):
         return (self.get_name(), self.get_age(), self.get_gender(), self.get_occupation(), self.get_college())
-        

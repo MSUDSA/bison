@@ -15,8 +15,8 @@ class ApplicationState:
         with cls.__lock:
             if cls.__instance is None:
                 cls.__instance = super(ApplicationState, cls).__new__(cls)
-                cls__instance = "running"
-            return cls__instance
+                cls.__instance.state = "running"
+            return cls.__instance
 
     def get_state(self):
         return self.state
@@ -33,7 +33,6 @@ class ApplicationState:
         self.ws_conn.append(conn)
 
     async def initialize(self):
-        if self.state is None:
-            self.cache = self.cache.connect()
-            self.db = await self.db.connect()
-            await self.db.create_tables()
+        self.cache = self.cache.connect()
+        self.db = await self.db.connect()
+        await self.db.create_tables()
