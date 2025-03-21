@@ -1,24 +1,21 @@
 from openai import OpenAI
 from lib.functions.queue import Queue
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 class Chatbot:
     def __init__(self):
         self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self.system_prompt ={
         "role": "system",
-        "content": [
-            {
-            "type": "input_text",
-            "text": "you are a mental health chat bot and will only give mental health advice"
-            }
-        ]
+        "content": "you are a mental health chat bot and will only give mental health advice"
         }
         self.settings = {
             'response_format': {
                 'type': 'text'
             },
-            'model': 'gpt-4o',
+            # 'model': 'gpt-4o',
             'frequency_penalty': 0,
             'temperature': 1,
             'max_completion_tokens': 2048,
@@ -35,11 +32,17 @@ class Chatbot:
 
     def send_chat(self):
         inputs = [self.system_prompt]
+        inputs.extend(self.queue.get_nodes())
+        print(inputs)
         response = self.client.chat.completions.create(
-            **self.settings,
-            input = inputs.extend(self.queue.get_nodes())
+            model='gpt-4o',
+            messages = inputs,
+            temperature=1,
+            # **self.settings,
         )
+        print(response)
         return response.choices[0].message.content
+        return response['choices'][0]['message']['content']
     
     def prepare_input(self, message):
         role = "assistant" if message.is_ai else "user"

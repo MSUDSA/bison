@@ -2,31 +2,37 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useWebSocket } from "../WebSocketContext";
+import { MessageType } from "../types";
 
 export default function Page() {
-  const [messages, setMessages] = useState<{ id: number; text: string; sender: "user" | "ai" }[]>([]);
+  const {sendMessage, message, isNewMessage}= useWebSocket()
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { dm_id } = useParams()
 
-  const sendMessage = () => {
+  useEffect(() => {
+    if (isNewMessage && message) {
+      updateMessages(message)
+    }
+  }, [isNewMessage])
+
+function updateMessages(message: MessageType) {
+  setMessages((prevMessages) => [...prevMessages, message]);
+  setMessages((prevMessage) => prevMessage.filter((msg) => msg.dm_id == dm_id))
+}
+
+  const sendUserMessage = () => {
     if (input.trim() !== "") {
-      const newUserMessage = { id: messages.length + 1, text: input, sender: "user" };
-      setMessages((prevMessages) => [...prevMessages, newUserMessage]);
+      const userMessage: MessageType = { content: input, dm_id: Number(dm_id), is_ai: false };
+      updateMessages(userMessage)
+      sendMessage(userMessage)
       setInput("");
-
-      // Simulate AI response (you can replace this with actual API call for AI)
-      setTimeout(() => {
-        const newAIMessage = {
-          id: messages.length + 2,
-          text: "This is an AI response to your message.",
-          sender: "ai",
-        };
-        setMessages((prevMessages) => [...prevMessages, newAIMessage]);
-      }, 1000);
     }
   };
 
-  // Auto-scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -38,22 +44,20 @@ export default function Page() {
         {messages.length === 0 ? (
           <p className="text-gray-400 text-sm text-center">Start the conversation...</p>
         ) : (
-          messages.map((msg) => (
+          messages.map((msg, index) => (
             <div
-              key={msg.id}
-              className={`p-2 rounded-lg max-w-[${msg.id % 2 == 1 ? '50' : '80'}%] break-words ${
-                msg.sender === "user" ? "bg-green-700 ml-auto" : "bg-gray-600"
+              key={index}
+              className={`p-2 rounded-lg max-w-[${msg.is_ai == false ? '50' : '80'}%] break-words ${
+                msg.is_ai === false ? "bg-green-700 ml-auto" : "bg-gray-600"
               }`}
             >
-              {msg.text}
+              {msg.content}
             </div>
           ))
         )}
-        {/* Dummy div to keep scroll at the bottom */}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Chat Input */}
       <div className="flex items-center mt-4">
         <textarea
           value={input}
@@ -63,12 +67,12 @@ export default function Page() {
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
-              sendMessage();
+              sendUserMessage();
             }
           }}
         />
         <button
-          onClick={sendMessage}
+          onClick={sendUserMessage}
           className="ml-2 p-2 bg-green-600 hover:bg-green-500 rounded-lg"
         >
           <Send size={20} />
@@ -77,3 +81,7 @@ export default function Page() {
     </div>
   );
 }
+
+
+
+

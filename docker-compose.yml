@@ -8,8 +8,8 @@ services:
       - "5432:5432"
     # restart: always
     # shm_size: 128mb
-    # volumes:
-    #   - ./data/postgres:/var/lib/postgresql/data
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=bison
       - POSTGRES_USER=admin

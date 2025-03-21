@@ -156,7 +156,7 @@ class Database:
             msg = msg.add_dm_id(message.dm_id)
         if message.content:
             msg = msg.add_content(message.content)
-        if message.is_ai:
+        if message.is_ai is not None:
             msg = msg.add_is_ai(message.is_ai)
         if message.timestamp:
             msg = msg.add_timestamp(message.timestamp)
@@ -210,41 +210,42 @@ class Database:
             
     async def create_message(self, message):
         try:
-            msg = await self.connection.fetchrow(
+            msg = await self.connection.fetch(
                 """
                 INSERT INTO message (dm_id, content, is_ai)
-                VALUES ($1, $2, $3);
+                VALUES ($1, $2, $3)
+                RETURNING id, dm_id, content, is_ai;
                 """,
                 *message.prepare_insert()
             )
-            if msg:
-                return MessageType(id=msg['id'], dm_id=msg['dm_id'], content=msg['content'], timestamp=msg['timestamp'], is_ai=msg['is_ai'])
-        
+            msg = msg[0]
+            return MessageType(id=msg['id'], dm_id=msg['dm_id'], content=msg['content'], is_ai=msg['is_ai'])
         except Exception as e:
-            print(f"error {e}")
+            return e
+            # return MessageType(id=1, dm_id=1, content="Not working...", is_ai=True)
 
 
     async def get_user_sorted_dms(self, user_id):
         try:
             dms = await self.connection.fetch(
                 """
-                SELECT
-                    dm.id AS dm_id,
-                    dm.user_id,
-                    dm.title,
-                    dm.created_at
-                    (SELECT MAX(m.created_at)
-                     FROM messages m
-                     WHERE m.dm_id = dm.id) AS updated_at
-                FROM direct_message dm
-                WHERE dm.user_id = $1
-                ORDER BY updated_at DESC; 
+                    SELECT
+                        dm.id AS dm_id,
+                        dm.user_id,
+                        dm.title,
+                        dm.created_at,
+                        (SELECT MAX(m.timestamp)
+                        FROM message m
+                        WHERE m.dm_id = dm.id) AS updated_at
+                    FROM direct_message dm
+                    WHERE dm.user_id = $1
+                    ORDER BY updated_at DESC;
                 """,
                 user_id
             )
             direct_messages = []
             for dm in dms:
-                direct_messages.append(DirectMessageType(id=dm['dm_id'],created_at=dm['created_at'], user_id=dm['user_id'], title=dm['title'], updated_at=dm['updated_at']))
+                direct_messages.append(DirectMessageType(id=dm['dm_id'], user_id=dm['user_id'], title=dm['title']))
             return direct_messages
 
         except Exception as e:

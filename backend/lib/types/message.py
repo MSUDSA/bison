@@ -16,7 +16,7 @@ class DirectMessageType(BaseModel):
 
 class MessageType(BaseModel):
     id: Optional[int] = None
-    dm_id: int
-    content: str
-    timestamp: str
     is_ai: bool
+    dm_id: Optional[int] = None
+    content: str
+    timestamp: Optional[str] = None
