@@ -56,7 +56,7 @@ function updateMessages(message: MessageType) {
             <div
               key={index}
               className={`p-2 rounded-lg max-w-[${msg.is_ai == false ? '50' : '80'}%] break-words ${
-                msg.is_ai === false ? "bg-green-700 ml-auto" : "bg-gray-600"
+                msg.is_ai === false ? "bg-blue-950 ml-auto" : "bg-gray-600"
               }`}
             >
               {msg.content}
@@ -81,7 +81,7 @@ function updateMessages(message: MessageType) {
         />
         <button
           onClick={sendUserMessage}
-          className="ml-2 p-2 bg-green-600 hover:bg-green-500 rounded-lg"
+          className="ml-2 p-2 bg-blue-950 hover:bg-blue-750 rounded-lg"
         >
           <Send size={20} />
         </button>
