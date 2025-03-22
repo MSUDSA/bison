@@ -17,7 +17,7 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
     const authToken = Cookies.get("auth_token");
     if (!authToken) return;
 
-    const ws = new WebSocket(`ws://localhost:8000/messages/ws?token=${authToken}`);
+    const ws = new WebSocket(`wss://projectspace.tech/messages/ws?token=${authToken}`);
 
     ws.onmessage = (event) => {
       console.log("Message from server: ", event.data);
@@ -29,7 +29,7 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
 
     ws.onclose = () => {
       console.log("WebSocket closed, attempting to reconnect...");
-      setTimeout(() => setSocket(new WebSocket(`ws://localhost:8000/messages/ws?token=${authToken}`)), 2000);
+      setTimeout(() => setSocket(new WebSocket(`wss://projectspace.tech/messages/ws?token=${authToken}`)), 2000);
     };
 
     setSocket(ws);

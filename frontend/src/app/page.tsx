@@ -40,7 +40,7 @@ export default function Home() {
 
   const handleLogin = async (formdata: FormData) => {
     try {
-      const res = await fetch(`http://localhost:8000/auth/login`, {
+      const res = await fetch(`https://projectspace.tech/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function Home() {
 
   const handleSignup = async (formdata: FormData) => {
     try {
-      const res = await fetch(`http://localhost:8000/users/`, {
+      const res = await fetch(`https://projectspace.tech/users/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
