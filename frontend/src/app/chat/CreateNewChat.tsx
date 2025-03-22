@@ -57,7 +57,7 @@ const CreateNewChat = ({ isOpen, onClose }: CreateNewChatProps) => {
             <div className="flex justify-center space-x-4">
               <button
                 type="submit"
-                className="py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="py-2 px-4 bg-blue-900 text-white font-semibold rounded-md hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 Create Chat
               </button>
