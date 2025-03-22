@@ -1,7 +1,7 @@
 from pydantic import BaseModel
-from typing import Optional, Literal
+from typing import Literal
 
-class Insights(BaseModel):
+class Insight(BaseModel):
   metric_name: Literal["heart rate", "blood pressure", "temperature", "blood oxygen"]
   status_name: Literal['normal', 'critical', 'warning', 'info']
   reason: str

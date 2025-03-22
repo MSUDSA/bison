@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Union
+from lib.types.insights import Insight
 
 
 
@@ -18,5 +19,6 @@ class MessageType(BaseModel):
     id: Optional[int] = None
     is_ai: bool
     dm_id: Optional[int] = None
-    content: str
+    content: Union[str, Insight]
     timestamp: Optional[str] = None
+    
