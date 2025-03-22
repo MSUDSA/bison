@@ -54,7 +54,7 @@ export default function Home() {
       Cookies.set('auth_token', data.access_token, { expires: 7, path: '/' });
 
       console.log("Login successful!");
-      router.push('/dashboard'); // Redirect after login
+      router.push('/chat'); // Redirect after login
     } catch (error) {
       console.error('Error:', error);
     }

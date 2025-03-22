@@ -251,6 +251,23 @@ class Database:
         except Exception as e:
             print(f"{e}")
 
+    async def get_dms_messages(self, dm_id):
+        try:
+            result = await self.connection.fetch(
+                """
+                    SELECT id, dm_id, content, is_ai FROM message WHERE dm_id = $1 ORDER BY timestamp; 
+                """, dm_id
+            )
+            messages = []
+            for msg in result:
+                message = MessageType(id=msg['id'], is_ai=msg['is_ai'], dm_id=msg['dm_id'], content=msg['content'])
+                messages.append(message.model_dump())
+            return messages
+
+        except Exception as e:
+            print(f"{e}")
+            
+
     async def get_account_info_by_email(self, email):
         if email:
             try:

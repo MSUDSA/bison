@@ -5,6 +5,7 @@ import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useWebSocket } from "../WebSocketContext";
 import { MessageType } from "../types";
+import { getDmMessages } from "../utils";
 
 export default function Page() {
   const {sendMessage, message, isNewMessage}= useWebSocket()
@@ -32,6 +33,13 @@ function updateMessages(message: MessageType) {
       setInput("");
     }
   };
+  useEffect(() => {
+    async function getMessages() {
+      const data = await getDmMessages(Number(dm_id))
+      setMessages(data)
+    }
+    getMessages()
+  },[])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

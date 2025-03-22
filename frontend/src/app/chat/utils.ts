@@ -14,3 +14,8 @@ export async function createNewDm(title: string) {
     })
     return await res.json()
 }
+
+export async function getDmMessages(dm_id: number) {
+    const res = await fetch(`http://localhost:8000/messages/message/${dm_id}`, {credentials: 'include'});
+    return await res.json()
+}
