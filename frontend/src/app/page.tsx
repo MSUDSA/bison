@@ -35,7 +35,11 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData)
-    isLogin ? handleLogin(formData) : handleSignup(formData);
+    if (isLogin) {
+      handleLogin(formData) }
+      else {
+        handleSignup(formData)
+      };
   };
 
   const handleLogin = async (formdata: FormData) => {
