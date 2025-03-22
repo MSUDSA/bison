@@ -44,11 +44,12 @@ export default function Home() {
 
   const handleLogin = async (formdata: FormData) => {
     try {
-      const res = await fetch(`https://projectspace.tech/auth/login`, {
+      const res = await fetch(`http://localhost:8000/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+    
         body: JSON.stringify(formdata),
       });
       const data = await res.json();
@@ -66,11 +67,12 @@ export default function Home() {
 
   const handleSignup = async (formdata: FormData) => {
     try {
-      const res = await fetch(`https://projectspace.tech/users/`, {
+      const res = await fetch(`http://localhost:8000/users/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        // mode:"no-cors",
         body: JSON.stringify(formdata),
       });
       const data = await res.json();

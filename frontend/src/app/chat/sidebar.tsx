@@ -9,13 +9,15 @@ import { useRouter } from "next/navigation";
 export function Sidebar() {
     const [isOpen, setIsOpen] = useState(true);
 
-    const [dms, setDms] = useState<DirectMessageType[]>()
+    const [dms, setDms] = useState<DirectMessageType[]>([])
     useEffect(() => {
       const getDms = async () => {
 
         const data = await getAllDirectMessages();
-        setDms(data)
-        console.log('data',data)
+      
+          setDms(data)
+          console.log('data',data)
+        
       }
       getDms()
     },[])
