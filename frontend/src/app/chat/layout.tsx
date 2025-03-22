@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Sidebar } from "./sidebar";
-import Cookies from "js-cookie";
 import { WebSocketProvider } from "./WebSocketContext";
 export default function ChatLayout({
   children,

@@ -1,6 +1,6 @@
 "use client"
-import { Menu, SquarePen } from "lucide-react";
-import { useEffect, useState } from "react";
+import { LucideProps, Menu, SquarePen } from "lucide-react";
+import { ForwardRefExoticComponent, RefAttributes, useEffect, useState } from "react";
 import { getAllDirectMessages } from "./utils";
 import CreateNewChat from "./CreateNewChat";
 import { DirectMessageType } from "./types";
@@ -74,7 +74,7 @@ export function Sidebar() {
     
   interface NavItemType {
       isOpen: boolean;
-      Icon?: any;
+      Icon?: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
       label: string
       id?: number;
   }
