@@ -22,7 +22,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(SessionMiddleware, secret_key=Config.SECRET_KEY, max_age=3600)
 
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=["https://bison-theta.vercel.app"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 @app.get("/")
 def root():

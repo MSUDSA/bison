@@ -55,7 +55,7 @@ export default function Home() {
       console.log(data);
 
       // Set cookie on client side
-      Cookies.set('auth_token', data.access_token, { expires: 7, path: '/' });
+      Cookies.set('auth_token', data.access_token, { expires: 7, path: '/', sameSite: "None", secure: true });
 
       console.log("Login successful!");
       router.push('/chat'); // Redirect after login
