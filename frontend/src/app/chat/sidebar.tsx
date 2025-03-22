@@ -22,8 +22,8 @@ export function Sidebar() {
       getDms()
     },[])
     return (
-      <div className={`h-screen ${isOpen ? "w-64" : "w-20"} bg-green-800 text-white transition-all duration-300 flex flex-col p-4`}>
-      <button onClick={() => setIsOpen(!isOpen)} className="mb-4 p-2 rounded-lg bg-green-600 hover:bg-green-500">
+      <div className={`h-screen ${isOpen ? "w-64" : "w-20"} bg-blue-950 text-white transition-all duration-300 flex flex-col p-4`}>
+      <button onClick={() => setIsOpen(!isOpen)} className="mb-4 p-2 rounded-lg bg-blue-950 hover:bg-blue-900">
         <Menu size={24} />
       </button>
   
@@ -41,7 +41,7 @@ export function Sidebar() {
   const NavItem = ({ isOpen,Icon, label, id }: NavItemType) => {
     const router = useRouter()
     return (
-      <div className="flex items-center space-x-4 p-2 rounded-lg hover:bg-green-700 cursor-pointer" onClick={() => router.push(`/chat/${id}`)}>
+      <div className="flex items-center space-x-4 p-2 rounded-lg hover:bg-blue-900 cursor-pointer" onClick={() => router.push(`/chat/${id}`)}>
         {Icon !== undefined ? <Icon size={24} /> : <></>}
         {isOpen && (
           <span className="truncate overflow-hidden whitespace-nowrap w-full">
@@ -60,7 +60,7 @@ export function Sidebar() {
     const closeModal = () => setIsModalOpen(false);
     return (
 
-      <div className="flex items-center space-x-4 p-2 rounded-lg hover:bg-green-700 cursor-pointer">
+      <div className="flex items-center space-x-4 p-2 rounded-lg hover:bg-blue-900 cursor-pointer">
         {Icon !== undefined ? <Icon size={24} /> : <></>}
         {isOpen && (
           <>
