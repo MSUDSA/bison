@@ -2,6 +2,7 @@ from fastapi import APIRouter, WebSocket, Depends
 from lib.functions import verify_jwt_token, verify_jwt_token_request, Chatbot
 from lib.types import Cookies, MessageType, DirectMessageType
 from state import ApplicationState
+import json
 
 api = ApplicationState()
 
@@ -27,7 +28,6 @@ async def get_dm_messages(cookies= Depends(verify_jwt_token_request), dm_id: int
 async def create_new_chat(direct_message: DirectMessageType,cookies=Depends(verify_jwt_token_request)):
     cookies = Cookies(**cookies)
     direct_message.user_id = cookies.user_id
-    print(direct_message.model_dump())
     try:
         dm = api.db.build_direct_message(direct_message)
         await api.db.create_direct_message(dm)
@@ -48,7 +48,7 @@ async def message_websocket_enpoint(websocket: WebSocket, token: str):
     while True:
         data = await websocket.receive_json()
         
-        msg = MessageType(dm_id=data['dm_id'], content=data['content'], is_ai=False)
+        msg = MessageType(dm_id=data['dm_id'], content=data['content'], is_ai=False, content_type='text')
 
         message = api.db.build_message(msg)
 
@@ -58,13 +58,19 @@ async def message_websocket_enpoint(websocket: WebSocket, token: str):
 
         ai_content = chat_bot.send_chat()
 
-        ai_msg = MessageType(dm_id=data['dm_id'], content=ai_content, is_ai=True)
+        content = ai_content
+        
+
+        ai_msg = MessageType(dm_id=data['dm_id'], content=json.dumps(content), is_ai=True,)
 
         ai_message = api.db.build_message(ai_msg)
 
         ai_message = await api.db.create_message(ai_message)
 
         if ai_message:
+
             format_ai_message = ai_message.model_dump()
+
             await websocket.send_json(format_ai_message)
+
             chat_bot.add_input(ai_msg)

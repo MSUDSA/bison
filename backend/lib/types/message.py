@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, Union
+from typing import Optional, Union, Literal
 from lib.types.insights import Insight
 
 
@@ -21,4 +21,6 @@ class MessageType(BaseModel):
     dm_id: Optional[int] = None
     content: Union[str, Insight]
     timestamp: Optional[str] = None
+    content_type: Optional[Literal['text', 'insight']] = None
     
+
