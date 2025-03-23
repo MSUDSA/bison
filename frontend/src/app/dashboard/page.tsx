@@ -164,7 +164,7 @@ export default function Dashboard() {
               <Button
                 // variant="outline"
                 // size="sm"
-                className="h-8 gap-1 border-battelle-blue text-battelle-blue hover:bg-battelle-blue/10"
+                className="h-8 gap-1 border-battelle-blue text-white hover:black"
               >
                 <History className="h-4 w-4" />
                 History
@@ -172,7 +172,7 @@ export default function Dashboard() {
               <Button
                 // variant="outline"
                 // size="sm"
-                className="h-8 gap-1 border-battelle-blue text-battelle-blue hover:bg-battelle-blue/10"
+                className="h-8 gap-1 border-battelle-blue text-white hover:black"
               >
                 <Calendar className="h-4 w-4" />
                 Weekly
@@ -180,11 +180,12 @@ export default function Dashboard() {
               <Button
                 // variant="outline"
                 // size="sm"
-                className="h-8 gap-1 border-battelle-blue text-battelle-blue hover:bg-battelle-blue/10"
+                className="h-8 gap-1 border-battelle-blue text-white hover:black"
               >
                 <Clock className="h-4 w-4" />
                 Real-time
               </Button>
+              
             </div>
           </div>
           <TabsContent value="all" className="space-y-4">
