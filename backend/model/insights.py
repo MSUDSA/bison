@@ -7,4 +7,3 @@ class Insighttype:
     self.metric_value = None
     self.timeframe = None
     self.color_code = None
-  
