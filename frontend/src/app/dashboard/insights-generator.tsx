@@ -8,16 +8,16 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 
-type InsightType = "warning" | "normal" | "improvement"
+export type InsightType = "warning" | "normal" | "improvement" | "none"
 
-interface Insight {
+export interface Insight {
   color_code: InsightType
-  status_name: string
-  reason: string
+  status_name?: string
+  reason?: string
   metric_name: string
-  timeframe: string
+  timeframe?: string
   recommendation: string
-  metric_value: number
+  metric_value?: number
 }
 const sampleInsights: Insight[] = [
   {
@@ -57,12 +57,12 @@ export function InsightsGenerator() {
   const [insights, setInsights] = useState<Insight[]>(sampleInsights)
   const [isGenerating, setIsGenerating] = useState(false)
 
+
+
   const handleGenerateInsights = () => {
     setIsGenerating(true)
-    // Simulate API call to generate insights
     setTimeout(() => {
       setIsGenerating(false)
-      // In a real app, this would update with new insights from the API
     }, 2000)
   }
 

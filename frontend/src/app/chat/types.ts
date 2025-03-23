@@ -1,7 +1,9 @@
+import { Insight } from "../dashboard/insights-generator";
+
 export interface MessageType {
     id?: number;
     dm_id?: number;
-    content: string;
+    content: Insight | string;
     timestamp?: string;
     is_ai: boolean;
   }

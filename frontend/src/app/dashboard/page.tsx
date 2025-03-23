@@ -37,7 +37,7 @@ import { PatientInsights } from "./patient-insights"
 import { AIAnalysisChat } from "./ai-analysis-chat"
 
 export default function Dashboard() {
-  const [view, setView] = useState<"patient" | "provider">("patient")
+  const [view, setView] = useState<boolean>(true)
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white">
@@ -48,7 +48,7 @@ export default function Dashboard() {
         </div>
         <div className="ml-auto flex items-center gap-4">
           <DateRangePicker />
-          {view === "provider" && <PatientSelector />}
+          {view === false && <PatientSelector />}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -56,19 +56,19 @@ export default function Dashboard() {
                 // size="sm"
                 className="gap-2 bg-white text-battelle-blue border-white hover:bg-white/90 hover:text-battelle-blue"
               >
-                {view === "patient" ? <User className="h-4 w-4" /> : <Users className="h-4 w-4" />}
-                {view === "patient" ? "Patient View" : "Provider View"}
+                {view === false ? <User className="h-4 w-4" /> : <Users className="h-4 w-4" />}
+                {view === false ? "Patient View" : "Provider View"}
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Switch View</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setView("patient")}>
+              <DropdownMenuItem onClick={() => setView(true)}>
                 <User className="mr-2 h-4 w-4" />
                 Patient View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setView("provider")}>
+              <DropdownMenuItem onClick={() => setView(false)}>
                 <Users className="mr-2 h-4 w-4" />
                 Provider View
               </DropdownMenuItem>
@@ -296,7 +296,7 @@ export default function Dashboard() {
             </div>
           </TabsContent>
         </Tabs>
-        {(view === "provider" || view === "patient") && (
+        {(view === false || view ===true) && (
           <Card className="border-battelle-blue/20">
             <CardHeader className="flex flex-row items-center justify-between border-b border-battelle-blue/10">
               <div>

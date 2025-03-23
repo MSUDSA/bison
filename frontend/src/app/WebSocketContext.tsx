@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { MessageType, WebSocketContextType } from "./types";
+import { MessageType, WebSocketContextType } from "./chat/types";
 
 
 

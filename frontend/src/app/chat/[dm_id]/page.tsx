@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useWebSocket } from "../WebSocketContext";
+import { useWebSocket } from "../../WebSocketContext";
 import { MessageType } from "../types";
 import { getDmMessages } from "../utils";
 
@@ -59,7 +59,7 @@ function updateMessages(message: MessageType) {
                 msg.is_ai === false ? "bg-blue-950 ml-auto" : "bg-gray-600"
               }`}
             >
-              {msg.content}
+              {typeof msg.content === 'string' ? msg.content : ''}
             </div>
           ))
         )}

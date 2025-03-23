@@ -76,7 +76,6 @@ export default function Home() {
         body: JSON.stringify(formdata),
       });
       const data = await res.json();
-      console.log(data);
       setIsLogin(true)
     } catch (error) {
       console.error('Error:', error);
