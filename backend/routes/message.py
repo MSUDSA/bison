@@ -58,13 +58,13 @@ async def message_websocket_enpoint(websocket: WebSocket, token: str):
 
         ai_content = chat_bot.send_chat()
 
-        ai_msg = MessageType(dm_id=data['dm_id'], content=ai_content, is_ai=True)
+        ai_msg = MessageType(dm_id=data['dm_id'], content=ai_content['data'], is_ai=True)
 
-        ai_message = api.db.build_message(ai_msg)
+        # ai_message = api.db.build_message(ai_msg)
 
-        ai_message = await api.db.create_message(ai_message)
+        # ai_message = await api.db.create_message(ai_message)
 
-        if ai_message:
-            format_ai_message = ai_message.model_dump()
-            await websocket.send_json(format_ai_message)
+        if ai_msg:
+            # format_ai_message = ai_message.model_dump()
+            await websocket.send_json(ai_msg.model_dump())
             chat_bot.add_input(ai_msg)

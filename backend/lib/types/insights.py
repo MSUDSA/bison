@@ -6,6 +6,6 @@ class Insight(BaseModel):
   status_name: Literal['normal', 'critical', 'warning', 'info']
   reason: str
   recommendation: str
-  metric_value: int
+  metric_value: float
   timeframe: str
   color_code: str
