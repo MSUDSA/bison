@@ -56,8 +56,8 @@ export default function Dashboard() {
                 // size="sm"
                 className="gap-2 bg-white text-battelle-blue border-white hover:bg-white/90 hover:text-battelle-blue"
               >
-                {view === false ? <User className="h-4 w-4" /> : <Users className="h-4 w-4" />}
-                {view === false ? "Patient View" : "Provider View"}
+                {view  ? <User className="h-4 w-4" /> : <Users className="h-4 w-4" />}
+                {view ? "Patient View" : "Provider View"}
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -164,7 +164,7 @@ export default function Dashboard() {
               <Button
                 // variant="outline"
                 // size="sm"
-                className="h-8 gap-1 border-battelle-blue text-battelle-blue hover:bg-battelle-blue/10"
+                className="h-8 gap-1 border-battelle-blue text-white hover:black"
               >
                 <History className="h-4 w-4" />
                 History
@@ -172,7 +172,7 @@ export default function Dashboard() {
               <Button
                 // variant="outline"
                 // size="sm"
-                className="h-8 gap-1 border-battelle-blue text-battelle-blue hover:bg-battelle-blue/10"
+                className="h-8 gap-1 border-battelle-blue text-white hover:black"
               >
                 <Calendar className="h-4 w-4" />
                 Weekly
@@ -180,11 +180,12 @@ export default function Dashboard() {
               <Button
                 // variant="outline"
                 // size="sm"
-                className="h-8 gap-1 border-battelle-blue text-battelle-blue hover:bg-battelle-blue/10"
+                className="h-8 gap-1 border-battelle-blue text-white hover:black"
               >
                 <Clock className="h-4 w-4" />
                 Real-time
               </Button>
+              
             </div>
           </div>
           <TabsContent value="all" className="space-y-4">
@@ -271,7 +272,9 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="insights">
+          {
+            view === false && 
+            <TabsContent value="insights">
             <div className="grid gap-4 md:grid-cols-2">
               <Card className="border-battelle-blue/20">
                 <CardHeader className="border-b border-battelle-blue/10">
@@ -295,6 +298,7 @@ export default function Dashboard() {
               </Card>
             </div>
           </TabsContent>
+          }
         </Tabs>
         {(view === false || view ===true) && (
           <Card className="border-battelle-blue/20">
