@@ -56,8 +56,8 @@ export default function Dashboard() {
                 // size="sm"
                 className="gap-2 bg-white text-battelle-blue border-white hover:bg-white/90 hover:text-battelle-blue"
               >
-                {view === false ? <User className="h-4 w-4" /> : <Users className="h-4 w-4" />}
-                {view === false ? "Patient View" : "Provider View"}
+                {view  ? <User className="h-4 w-4" /> : <Users className="h-4 w-4" />}
+                {view ? "Patient View" : "Provider View"}
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -271,7 +271,9 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="insights">
+          {
+            view === false && 
+            <TabsContent value="insights">
             <div className="grid gap-4 md:grid-cols-2">
               <Card className="border-battelle-blue/20">
                 <CardHeader className="border-b border-battelle-blue/10">
@@ -295,6 +297,7 @@ export default function Dashboard() {
               </Card>
             </div>
           </TabsContent>
+          }
         </Tabs>
         {(view === false || view ===true) && (
           <Card className="border-battelle-blue/20">

@@ -30,7 +30,7 @@ const initialMessages: MessageType[] = [
     content: {
       color_code: 'warning',
       metric_name: "Blood Pressure",
-      recommendation: "'ve analyzed John Doe's blood pressure readings for the past week. The data shows an elevated pattern with an average of 135/88 mmHg, which is in the pre-hypertension range. There's a notable increase during morning hours (8-10 AM) and again in the evening (6-8 PM)."
+      recommendation: "I've analyzed John Doe's blood pressure readings for the past week. The data shows an elevated pattern with an average of 135/88 mmHg, which is in the pre-hypertension range. There's a notable increase during morning hours (8-10 AM) and again in the evening (6-8 PM)."
     }
   },
 ]
@@ -70,6 +70,7 @@ const {sendMessage, message, isNewMessage} = useWebSocket()
 
   useEffect(() => {
     if (isNewMessage && message) {
+      console.log(message)
       updateMessages(message)
     }
   },[isNewMessage])
